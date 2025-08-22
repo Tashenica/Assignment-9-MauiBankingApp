@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="MauiBankingExercise.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MauiBankingExercise"
-    Title="MauiBankingExercise">
+<Shell x:Class="MauiBankingExercise.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:MauiBankingExercise.Views"
+       FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- Define routes for navigation -->
+    <ShellContent Title="Select Customer" 
+                  Route="customers"
+                  ContentTemplate="{DataTemplate views:CustomerSelectionPage}" />
+
+    <ShellContent Title="Dashboard" 
+                  Route="dashboard"
+                  ContentTemplate="{DataTemplate views:CustomerDashboardPage}" />
+
+    <ShellContent Title="Transactions" 
+                  Route="transactions"
+                  ContentTemplate="{DataTemplate views:TransactionPage}" />
 
 </Shell>

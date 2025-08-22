@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiBankingExercise.Views.TransactionPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiBankingExercise.ViewModels"
+             x:DataType="vm:TransactionViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <StackLayout Padding="20">
+            <!-- Account Info -->
+            <Border BackgroundColor="LightGreen" Padding="15" Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0">
+                        <Label Text="{Binding Account.AccountNumber}" 
+                               FontSize="18" FontAttributes="Bold"/>
+                        <Label Text="Current Balance" 
+                               FontSize="14" TextColor="DarkGreen"/>
+                    </StackLayout>
+
+                    <Label Grid.Column="1" 
+                           Text="{Binding Account.AccountBalance, StringFormat='${0:N2}'}" 
+                           FontSize="24" FontAttributes="Bold" 
+                           TextColor="DarkGreen" VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- New Transaction Form -->
+            <Border BackgroundColor="LightYellow" Padding="15" Margin="0,0,0,20">
+                <StackLayout>
+                    <Label Text="Make a Transaction" 
+                           FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,0,15"/>
+
+                    <!-- Transaction Type -->
+                    <Label Text="Transaction Type:" FontAttributes="Bold"/>
+                    <Picker ItemsSource="{Binding TransactionTypes}" 
+                            SelectedItem="{Binding SelectedTransactionType}"
+                            ItemDisplayBinding="{Binding Name}"
+                            Title="Select transaction type"/>
+
+                    <!-- Amount -->
+                    <Label Text="Amount:" FontAttributes="Bold" Margin="0,10,0,0"/>
+                    <Entry Text="{Binding TransactionAmount}" 
+                           Placeholder="Enter amount"
+                           Keyboard="Numeric"/>
+
+                    <!-- Description -->
+                    <Label Text="Description:" FontAttributes="Bold" Margin="0,10,0,0"/>
+                    <Entry Text="{Binding Description}" 
+                           Placeholder="Enter description (optional)"/>
+
+                    <!-- Submit Button -->
+                    <Button Text="Submit Transaction" 
+                            Command="{Binding CreateTransactionCommand}"
+                            BackgroundColor="Blue" 
+                            TextColor="White"
+                            Margin="0,15,0,0"/>
+                </StackLayout>
+            </Border>
+
+            <!-- Transaction History -->
+            <Label Text="Transaction History" 
+                   FontSize="18" FontAttributes="Bold" Margin="0,0,0,10"/>
+
+            <CollectionView ItemsSource="{Binding Transactions}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="White" 
+                               Stroke="LightGray" 
+                               Padding="15" 
+                               Margin="0,2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackLayout Grid.Column="0">
+                                    <Label Text="{Binding TransactionDate, StringFormat='{0:MM/dd/yyyy HH:mm}'}" 
+                                           FontSize="16" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Description}" 
+                                           FontSize="14" TextColor="Gray"/>
+                                    <Label Text="{Binding TransactionTypeId, StringFormat='Type: {0}'}" 
+                                           FontSize="12" TextColor="Gray"/>
+                                </StackLayout>
+
+                                <Label Grid.Column="1" 
+                                       Text="{Binding Amount, StringFormat='${0:N2}'}" 
+                                       FontSize="18" FontAttributes="Bold" 
+                                       TextColor="{Binding TransactionTypeId, Converter={StaticResource TransactionColorConverter}}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <ActivityIndicator IsVisible="{Binding IsLoading}" 
+                               IsRunning="{Binding IsLoading}"
+                               Margin="20"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiBankingExercise.Views.CustomerSelectionPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiBankingExercise.ViewModels"
+             x:DataType="vm:CustomerSelectionViewModel"
+             Title="{Binding Title}">
+
+    <Grid>
+        <CollectionView ItemsSource="{Binding Customers}"
+                        BackgroundColor="LightGray">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="15" BackgroundColor="White" Margin="5">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CustomerSelectionViewModel}}, Path=SelectCustomerCommand}"
+                                CommandParameter="{Binding .}"/>
+                        </Grid.GestureRecognizers>
+
+                        <StackLayout>
+                            <Label FontSize="18" FontAttributes="Bold">
+                                <Label.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="FirstName"/>
+                                    <Binding Path="LastName"/>
+                                </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            <Label Text="{Binding Email}" FontSize="14" TextColor="Gray"/>
+                            <Label Text="{Binding PhoneNumber}" FontSize="14" TextColor="Gray"/>
+                        </StackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator IsVisible="{Binding IsLoading}" 
+                           IsRunning="{Binding IsLoading}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+    </Grid>
+</ContentPage>
