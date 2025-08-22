@@ -1,11 +1,8 @@
 ﻿using SQLite;
 using SQLiteNetExtensions.Attributes;
-using System.Collections.Generic;
 
 namespace MauiBankingExercise.Models
 {
-
-
     public class TransactionType
     {
         [PrimaryKey, AutoIncrement]
@@ -14,6 +11,6 @@ namespace MauiBankingExercise.Models
         public string Name { get; set; }
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Transaction> Transactions { get; set; }
+        public List<Transaction> Transactions { get; set; } = new List<Transaction>();
     }
 }

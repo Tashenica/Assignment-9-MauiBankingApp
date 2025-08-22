@@ -1,48 +1,75 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using MauiBankingExercise.Models;
 using MauiBankingExercise.Services;
-using System.Collections.ObjectModel;
 
 namespace MauiBankingExercise.ViewModels
 {
     [QueryProperty(nameof(CustomerId), "customerId")]
     public partial class CustomerDashboardViewModel : BaseViewModel
     {
-        private readonly IBankingService _bankingService;
-
-        [ObservableProperty]
-        private Customer _customer = new();
-
-        [ObservableProperty]
+        private readonly DatabaseService _databaseService;
+        private Customer _customer;
         private ObservableCollection<Account> _accounts = new();
-
-        [ObservableProperty]
+        private bool _isLoading;
         private int _customerId;
 
-        public CustomerDashboardViewModel(IBankingService bankingService)
+        public CustomerDashboardViewModel(DatabaseService databaseService)
         {
-            _bankingService = bankingService;
-            Title = "Customer Dashboard";
+            _databaseService = databaseService;
+            SelectAccountCommand = new Command<Account>(OnSelectAccount);
         }
 
-        partial void OnCustomerIdChanged(int value)
+        public int CustomerId
         {
-            LoadCustomerData();
+            get => _customerId;
+            set
+            {
+                SetProperty(ref _customerId, value);
+                if (value > 0)
+                {
+                    Task.Run(async () => await LoadCustomerDataAsync());
+                }
+            }
         }
 
-        [RelayCommand]
-        private void LoadCustomerData()
+        public Customer Customer
         {
-            if (CustomerId == 0) return;
+            get => _customer;
+            set => SetProperty(ref _customer, value);
+        }
 
+        public ObservableCollection<Account> Accounts
+        {
+            get => _accounts;
+            set => SetProperty(ref _accounts, value);
+        }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
+        public ICommand SelectAccountCommand { get; }
+
+        private async Task LoadCustomerDataAsync()
+        {
+            IsLoading = true;
             try
             {
-                IsLoading = true;
-                Customer = _bankingService.GetCustomerWithAccounts(CustomerId);
-                Accounts = new ObservableCollection<Account>(Customer.Accounts ?? new List<Account>());
-                Title = $"{Customer.FirstName} {Customer.LastName}";
+                Customer = await _databaseService.GetCustomerAsync(CustomerId);
+                var accounts = await _databaseService.GetAccountsAsync(CustomerId);
+
+                Accounts.Clear();
+                foreach (var account in accounts)
+                {
+                    Accounts.Add(account);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading customer data: {ex.Message}");
             }
             finally
             {
@@ -50,12 +77,12 @@ namespace MauiBankingExercise.ViewModels
             }
         }
 
-        [RelayCommand]
-        private async Task ViewAccount(Account account)
+        private async void OnSelectAccount(Account account)
         {
-            if (account == null) return;
-
-            await Shell.Current.GoToAsync($"//transactions?accountId={account.AccountId}");
+            if (account != null)
+            {
+                await Shell.Current.GoToAsync($"TransactionPage?accountId={account.AccountId}");
+            }
         }
     }
 }

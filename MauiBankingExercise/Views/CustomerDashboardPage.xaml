@@ -2,69 +2,79 @@
 <ContentPage x:Class="MauiBankingExercise.Views.CustomerDashboardPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:MauiBankingExercise.ViewModels"
-             x:DataType="vm:CustomerDashboardViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Customer.FullName}">
 
     <ScrollView>
-        <StackLayout Padding="20">
-            <!-- Customer Info -->
-            <Border BackgroundColor="LightBlue" Padding="15" Margin="0,0,0,20">
-                <StackLayout>
-                    <Label Text="{Binding Customer.FirstName, StringFormat='Welcome, {0} {1}'}" 
-                           FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+        <StackLayout Padding="16" Spacing="16">
+            <Border StrokeThickness="1" 
+                    Stroke="DarkBlue" 
+                    BackgroundColor="LightBlue">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8"/>
+                </Border.StrokeShape>
+
+                <StackLayout Padding="16" Spacing="8">
+                    <Label Text="Customer Information" 
+                           FontSize="18" 
+                           FontAttributes="Bold" />
+                    <Label Text="{Binding Customer.FullName}" 
+                           FontSize="16" />
                     <Label Text="{Binding Customer.Email}" 
-                           FontSize="16" HorizontalOptions="Center" TextColor="DarkBlue"/>
-                    <Label Text="{Binding Customer.PhoneNumber}" 
-                           FontSize="14" HorizontalOptions="Center" TextColor="DarkBlue"/>
+                           FontSize="14" 
+                           TextColor="Gray" />
                 </StackLayout>
             </Border>
 
-            <!-- Accounts Section -->
-            <Label Text="Your Accounts" FontSize="20" FontAttributes="Bold" Margin="0,0,0,10"/>
+            <Label Text="Accounts" 
+                   FontSize="20" 
+                   FontAttributes="Bold" />
 
             <CollectionView ItemsSource="{Binding Accounts}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border BackgroundColor="White" 
-                                Stroke="Gray" 
-                               Padding="15" 
-                               Margin="0,5">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CustomerDashboardViewModel}}, Path=ViewAccountCommand}"
-                                    CommandParameter="{Binding .}"/>
-                            </Border.GestureRecognizers>
+                        <Grid Padding="0,8">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectAccountCommand}"
+                                                      CommandParameter="{Binding}" />
+                            </Grid.GestureRecognizers>
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                            <Border StrokeThickness="1" 
+                                    Stroke="Gray" 
+                                    BackgroundColor="White">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8"/>
+                                </Border.StrokeShape>
 
-                                <StackLayout Grid.Column="0">
-                                    <Label Text="{Binding AccountNumber}" 
-                                           FontSize="18" FontAttributes="Bold"/>
-                                    <Label Text="{Binding AccountTypeId, StringFormat='Account Type: {0}'}" 
-                                           FontSize="14" TextColor="Gray"/>
-                                    <Label Text="{Binding DateOpened, StringFormat='Opened: {0:MM/dd/yyyy}'}" 
-                                           FontSize="12" TextColor="Gray"/>
-                                </StackLayout>
+                                <Grid Padding="16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <StackLayout Grid.Column="1" HorizontalOptions="End">
-                                    <Label Text="{Binding AccountBalance, StringFormat='${0:N2}'}" 
-                                           FontSize="20" FontAttributes="Bold" TextColor="Green"/>
-                                    <Label Text="Balance" FontSize="12" TextColor="Gray" HorizontalOptions="Center"/>
-                                </StackLayout>
-                            </Grid>
-                        </Border>
+                                    <StackLayout Grid.Column="0" Spacing="4">
+                                        <Label Text="{Binding AccountNumber, StringFormat='Account: {0}'}" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="{Binding DateOpened, StringFormat='Opened: {0:MMM dd, yyyy}'}" 
+                                               FontSize="12" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+
+                                    <Label Grid.Column="1" 
+                                           Text="{Binding AccountBalance, StringFormat='{0:C}'}" 
+                                           FontSize="18" 
+                                           FontAttributes="Bold" 
+                                           TextColor="Green" />
+                                </Grid>
+                            </Border>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
             <ActivityIndicator IsVisible="{Binding IsLoading}" 
                                IsRunning="{Binding IsLoading}"
-                               Margin="20"/>
+                               Color="Blue" />
         </StackLayout>
     </ScrollView>
 </ContentPage>

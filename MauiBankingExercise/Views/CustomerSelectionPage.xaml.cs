@@ -9,4 +9,13 @@ public partial class CustomerSelectionPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is CustomerSelectionViewModel viewModel)
+        {
+            await viewModel.LoadCustomersAsync();
+        }
+    }
 }

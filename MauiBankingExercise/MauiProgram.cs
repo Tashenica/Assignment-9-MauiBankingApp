@@ -2,7 +2,6 @@
 using MauiBankingExercise.Services;
 using MauiBankingExercise.ViewModels;
 using MauiBankingExercise.Views;
-using MauiBankingExercise.Converters;
 
 namespace MauiBankingExercise
 {
@@ -16,12 +15,15 @@ namespace MauiBankingExercise
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("OpenSans-SemiBold.ttf", "OpenSansSemiBold");
                 });
 
-            // Register Services
+#if DEBUG
+            builder.Services.AddLogging(configure => configure.AddDebug());
+#endif
+
+            // Register services
             builder.Services.AddSingleton<DatabaseService>();
-            builder.Services.AddSingleton<IBankingService, BankingService>();
 
             // Register ViewModels
             builder.Services.AddTransient<CustomerSelectionViewModel>();
@@ -32,13 +34,6 @@ namespace MauiBankingExercise
             builder.Services.AddTransient<CustomerSelectionPage>();
             builder.Services.AddTransient<CustomerDashboardPage>();
             builder.Services.AddTransient<TransactionPage>();
-
-            // Register Converters
-            builder.Services.AddSingleton<TransactionColorConverter>();
-
-#if DEBUG
-            builder.Logging.AddDebug();
-#endif
 
             return builder.Build();
         }

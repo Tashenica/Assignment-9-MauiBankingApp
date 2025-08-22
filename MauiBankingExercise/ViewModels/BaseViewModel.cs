@@ -1,13 +1,26 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace MauiBankingExercise.ViewModels
 {
-    public partial class BaseViewModel : ObservableObject
+    public partial class BaseViewModel : INotifyPropertyChanged
     {
-        [ObservableProperty]
-        private bool _isLoading;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        [ObservableProperty]
-        private string _title = string.Empty;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "", Action onChanged = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(backingStore, value))
+                return false;
+
+            backingStore = value;
+            onChanged?.Invoke();
+            OnPropertyChanged(propertyName);
+            return true;
+        }
     }
 }

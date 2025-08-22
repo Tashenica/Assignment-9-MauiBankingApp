@@ -1,133 +1,144 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using MauiBankingExercise.Models;
 using MauiBankingExercise.Services;
-using System.Collections.ObjectModel;
 
 namespace MauiBankingExercise.ViewModels
 {
     [QueryProperty(nameof(AccountId), "accountId")]
     public partial class TransactionViewModel : BaseViewModel
     {
-        private readonly IBankingService _bankingService;
-
-        [ObservableProperty]
-        private Account _account = new();
-
-        [ObservableProperty]
+        private readonly DatabaseService _databaseService;
+        private Account _account;
         private ObservableCollection<Transaction> _transactions = new();
-
-        [ObservableProperty]
-        private ObservableCollection<TransactionType> _transactionTypes = new();
-
-        [ObservableProperty]
         private decimal _transactionAmount;
-
-        [ObservableProperty]
-        private TransactionType? _selectedTransactionType;
-
-        [ObservableProperty]
-        private string _description = string.Empty;
-
-        [ObservableProperty]
+        private string _selectedTransactionType = "Deposit";
+        private bool _isLoading;
         private int _accountId;
 
-        public TransactionViewModel(IBankingService bankingService)
+        public TransactionViewModel(DatabaseService databaseService)
         {
-            _bankingService = bankingService;
-            Title = "Transactions";
+            _databaseService = databaseService;
+            SubmitTransactionCommand = new Command(async () => await SubmitTransactionAsync(), CanSubmitTransaction);
+            TransactionTypes = new List<string> { "Deposit", "Withdrawal" };
         }
 
-        partial void OnAccountIdChanged(int value)
+        public int AccountId
         {
-            LoadData();
-        }
-
-        [RelayCommand]
-        private void LoadData()
-        {
-            if (AccountId == 0) return;
-
-            try
+            get => _accountId;
+            set
             {
-                IsLoading = true;
-                Account = _bankingService.GetAccount(AccountId);
-                var transactions = _bankingService.GetAccountTransactions(AccountId);
-                Transactions = new ObservableCollection<Transaction>(transactions);
-
-                var transactionTypes = _bankingService.GetTransactionTypes();
-                TransactionTypes = new ObservableCollection<TransactionType>(transactionTypes);
-
-                Title = $"Account: {Account.AccountNumber}";
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
-
-        [RelayCommand]
-        private void CreateTransaction()
-        {
-            if (!ValidateTransaction()) return;
-
-            try
-            {
-                IsLoading = true;
-
-                var transaction = new Transaction
+                SetProperty(ref _accountId, value);
+                if (value > 0)
                 {
-                    AccountId = AccountId,
-                    TransactionTypeId = SelectedTransactionType!.TransactionTypeId,
-                    Amount = TransactionAmount,
-                    Description = Description,
-                    TransactionDate = DateTime.Now
-                };
-
-                var success = _bankingService.CreateTransaction(transaction);
-                if (success)
-                {
-                    // Update account balance
-                    var newBalance = SelectedTransactionType.Name == "Deposit"
-                        ? Account.AccountBalance + TransactionAmount
-                        : Account.AccountBalance - TransactionAmount;
-
-                    _bankingService.UpdateAccountBalance(AccountId, newBalance);
-
-                    // Reset form and reload data
-                    TransactionAmount = 0;
-                    Description = string.Empty;
-                    SelectedTransactionType = null;
-                    LoadData();
+                    Task.Run(async () => await LoadAccountDataAsync());
                 }
             }
+        }
+
+        public Account Account
+        {
+            get => _account;
+            set => SetProperty(ref _account, value);
+        }
+
+        public ObservableCollection<Transaction> Transactions
+        {
+            get => _transactions;
+            set => SetProperty(ref _transactions, value);
+        }
+
+        public decimal TransactionAmount
+        {
+            get => _transactionAmount;
+            set
+            {
+                SetProperty(ref _transactionAmount, value);
+                ((Command)SubmitTransactionCommand).ChangeCanExecute();
+            }
+        }
+
+        public string SelectedTransactionType
+        {
+            get => _selectedTransactionType;
+            set
+            {
+                SetProperty(ref _selectedTransactionType, value);
+                ((Command)SubmitTransactionCommand).ChangeCanExecute();
+            }
+        }
+
+        public List<string> TransactionTypes { get; }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
+        public ICommand SubmitTransactionCommand { get; }
+
+        private async Task LoadAccountDataAsync()
+        {
+            IsLoading = true;
+            try
+            {
+                Account = await _databaseService.GetAccountAsync(AccountId);
+                var transactions = await _databaseService.GetTransactionsAsync(AccountId);
+
+                Transactions.Clear();
+                foreach (var transaction in transactions)
+                {
+                    Transactions.Add(transaction);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading account data: {ex.Message}");
+            }
             finally
             {
                 IsLoading = false;
             }
         }
 
-        private bool ValidateTransaction()
+        private bool CanSubmitTransaction()
         {
-            if (TransactionAmount <= 0)
+            return TransactionAmount > 0 && !string.IsNullOrEmpty(SelectedTransactionType);
+        }
+
+        private async Task SubmitTransactionAsync()
+        {
+            if (SelectedTransactionType == "Withdrawal" && TransactionAmount > Account.AccountBalance)
             {
-                // Show error message
-                return false;
+                await Application.Current.MainPage.DisplayAlert("Error", "Insufficient funds for withdrawal.", "OK");
+                return;
             }
 
-            if (SelectedTransactionType == null)
+            IsLoading = true;
+            try
             {
-                // Show error message
-                return false;
-            }
+                var success = await _databaseService.CreateTransactionAsync(AccountId, TransactionAmount, SelectedTransactionType);
 
-            if (SelectedTransactionType.Name == "Withdrawal" && TransactionAmount > Account.AccountBalance)
+                if (success)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Success", "Transaction completed successfully!", "OK");
+                    TransactionAmount = 0;
+                    await LoadAccountDataAsync(); // Refresh data
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Transaction failed. Please try again.", "OK");
+                }
+            }
+            catch (Exception ex)
             {
-                // Show error message - insufficient funds
-                return false;
+                await Application.Current.MainPage.DisplayAlert("Error", $"Transaction failed: {ex.Message}", "OK");
             }
-
-            return true;
+            finally
+            {
+                IsLoading = false;
+            }
         }
     }
 }
