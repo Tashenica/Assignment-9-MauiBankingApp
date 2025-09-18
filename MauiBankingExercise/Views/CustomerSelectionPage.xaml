@@ -2,44 +2,293 @@
 <ContentPage x:Class="MauiBankingExercise.Views.CustomerSelectionPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Select Customer">
+             Title="Banking Portal"
+             BackgroundColor="#0A0E27">
 
     <Grid>
-        <CollectionView ItemsSource="{Binding Customers}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="16">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectCustomerCommand}"
-                                                  CommandParameter="{Binding}" />
-                        </Grid.GestureRecognizers>
+        <!-- Background Gradient -->
+        <BoxView>
+            <BoxView.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#0A0E27" Offset="0.0" />
+                    <GradientStop Color="#1A1F3A" Offset="0.5" />
+                    <GradientStop Color="#0F1629" Offset="1.0" />
+                </LinearGradientBrush>
+            </BoxView.Background>
+        </BoxView>
 
-                        <Border StrokeThickness="1" 
-                                Stroke="LightGray" 
-                                BackgroundColor="White">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8"/>
-                            </Border.StrokeShape>
+        <!-- Main Content Grid -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                            <StackLayout Padding="16" Spacing="8">
-                                <Label Text="{Binding FullName}" 
-                                       FontSize="18" 
-                                       FontAttributes="Bold" />
-                                <Label Text="{Binding Email}" 
-                                       FontSize="14" 
-                                       TextColor="Gray" />
-                                <Label Text="{Binding PhoneNumber}" 
-                                       FontSize="14" 
-                                       TextColor="Gray" />
-                            </StackLayout>
-                        </Border>
+            <!-- Header Section -->
+            <Grid Grid.Row="0" Padding="20,40,20,20">
+                <Border StrokeThickness="0" 
+                        StrokeShape="RoundRectangle 25">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#6366F1" Offset="0.0" />
+                            <GradientStop Color="#8B5CF6" Offset="0.5" />
+                            <GradientStop Color="#EC4899" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.Shadow>
+                        <Shadow Brush="#6366F1"
+                                Offset="0,15"
+                                Radius="30"
+                                Opacity="0.4" />
+                    </Border.Shadow>
+
+                    <Grid Padding="25">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Logo and Title Grid -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    StrokeShape="RoundRectangle 15"
+                                    BackgroundColor="#FFFFFF25"
+                                    StrokeThickness="0">
+                                <Grid>
+                                    <Label Text="💳" 
+                                           FontSize="28"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <Grid Grid.Column="1" Margin="10,0,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       Text="SecureBank" 
+                                       FontSize="28" 
+                                       FontAttributes="Bold" 
+                                       TextColor="White" />
+                                <Label Grid.Row="1"
+                                       Text="Premium Digital Banking" 
+                                       FontSize="13" 
+                                       TextColor="#FFFFFFAA" />
+                            </Grid>
+                        </Grid>
+
+                        <BoxView Grid.Row="1" 
+                                 HeightRequest="1" 
+                                 BackgroundColor="#FFFFFF20" 
+                                 Margin="0,15,0,15" />
+
+                        <Label Grid.Row="2"
+                               Text="Choose Your Account" 
+                               FontSize="16" 
+                               TextColor="#FFFFFF"
+                               HorizontalTextAlignment="Center" />
                     </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                </Border>
+            </Grid>
 
-        <ActivityIndicator IsVisible="{Binding IsLoading}" 
-                           IsRunning="{Binding IsLoading}"
-                           Color="Blue" />
+            <!-- Customer List ScrollView -->
+            <ScrollView Grid.Row="1">
+                <Grid Padding="20,0,20,20">
+                    <CollectionView ItemsSource="{Binding Customers}"
+                                    ItemsLayout="VerticalList"
+                                    BackgroundColor="Transparent">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0,8">
+                                    <Border StrokeThickness="1" 
+                                            Stroke="#FFFFFF10"
+                                            BackgroundColor="#1A1F3A"
+                                            StrokeShape="RoundRectangle 20">
+                                        <Border.Shadow>
+                                            <Shadow Brush="Black"
+                                                    Offset="0,5"
+                                                    Radius="15"
+                                                    Opacity="0.3" />
+                                        </Border.Shadow>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectCustomerCommand}"
+                                                                  CommandParameter="{Binding}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Grid Padding="20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="65" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="40" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Avatar with Gradient -->
+                                            <Border Grid.Column="0" 
+                                                    WidthRequest="55" 
+                                                    HeightRequest="55" 
+                                                    StrokeShape="RoundRectangle 27.5"
+                                                    StrokeThickness="2"
+                                                    Stroke="#6366F1"
+                                                    VerticalOptions="Center">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#6366F1" Offset="0.0" />
+                                                        <GradientStop Color="#8B5CF6" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Grid>
+                                                    <Label Text="U" 
+                                                           FontSize="22" 
+                                                           FontAttributes="Bold" 
+                                                           TextColor="White"
+                                                           HorizontalTextAlignment="Center"
+                                                           VerticalTextAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- Customer Info Grid -->
+                                            <Grid Grid.Column="1" 
+                                                  Margin="15,0,0,0"
+                                                  VerticalOptions="Center">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Label Grid.Row="0"
+                                                       Text="{Binding FullName}" 
+                                                       FontSize="17" 
+                                                       FontAttributes="Bold" 
+                                                       TextColor="White" />
+                                                <Label Grid.Row="1"
+                                                       Text="{Binding Email}" 
+                                                       FontSize="13" 
+                                                       TextColor="#94A3B8"
+                                                       Margin="0,2,0,0" />
+                                                <Grid Grid.Row="2" Margin="0,4,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column="0"
+                                                           Text="📱" 
+                                                           FontSize="12" />
+                                                    <Label Grid.Column="1"
+                                                           Text="{Binding PhoneNumber}" 
+                                                           FontSize="13" 
+                                                           TextColor="#64748B"
+                                                           Margin="5,0,0,0" />
+                                                </Grid>
+                                            </Grid>
+
+                                            <!-- Arrow Icon -->
+                                            <Grid Grid.Column="2" VerticalOptions="Center">
+                                                <Border WidthRequest="35" 
+                                                        HeightRequest="35" 
+                                                        StrokeShape="RoundRectangle 17.5"
+                                                        BackgroundColor="#6366F120"
+                                                        StrokeThickness="0">
+                                                    <Grid>
+                                                        <Label Text="→" 
+                                                               FontSize="20" 
+                                                               TextColor="#8B5CF6"
+                                                               HorizontalTextAlignment="Center"
+                                                               VerticalTextAlignment="Center" />
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- Empty State - Using StackLayout for visibility like original -->
+                    <StackLayout IsVisible="False"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Margin="0,50,0,0">
+                        <Border StrokeThickness="2" 
+                                Stroke="#FFFFFF10"
+                                BackgroundColor="#1A1F3A90"
+                                StrokeShape="RoundRectangle 20">
+                            <Grid Padding="40">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Row="0"
+                                       Text="👥" 
+                                       FontSize="48"
+                                       HorizontalTextAlignment="Center"
+                                       Margin="0,0,0,15" />
+                                <Label Grid.Row="1"
+                                       Text="No Customers Available" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#E2E8F0"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Grid.Row="2"
+                                       Text="Database may be loading or empty" 
+                                       FontSize="14" 
+                                       TextColor="#94A3B8"
+                                       HorizontalTextAlignment="Center"
+                                       Margin="0,8,0,0" />
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+        </Grid>
+
+        <!-- Loading Overlay -->
+        <Grid IsVisible="{Binding IsLoading}" 
+              BackgroundColor="#0A0E27CC">
+            <Border StrokeThickness="0" 
+                    StrokeShape="RoundRectangle 20"
+                    WidthRequest="150"
+                    HeightRequest="150"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#ffff00" Offset="0.0" />
+                        <GradientStop Color="#00ff80" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ActivityIndicator Grid.Row="0"
+                                       IsRunning="{Binding IsLoading}"
+                                       Color="#8B5CF6"
+                                       WidthRequest="50"
+                                       HeightRequest="50"
+                                       VerticalOptions="Center" />
+                    <Label Grid.Row="1"
+                           Text="Loading customers..." 
+                           TextColor="White" 
+                           FontSize="14"
+                           HorizontalTextAlignment="Center"
+                           Margin="0,0,0,20" />
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </ContentPage>

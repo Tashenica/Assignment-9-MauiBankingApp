@@ -2,79 +2,294 @@
 <ContentPage x:Class="MauiBankingExercise.Views.CustomerDashboardPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="{Binding Customer.FullName}">
+             Title="{Binding Customer.FullName}"
+             BackgroundColor="#0A0E27">
 
-    <ScrollView>
-        <StackLayout Padding="16" Spacing="16">
-            <Border StrokeThickness="1" 
-                    Stroke="DarkBlue" 
-                    BackgroundColor="LightBlue">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="8"/>
-                </Border.StrokeShape>
+    <Grid>
+        <!-- Background Pattern -->
+        <BoxView>
+            <BoxView.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#0A0E27" Offset="0.0" />
+                    <GradientStop Color="#1A1F3A" Offset="0.5" />
+                    <GradientStop Color="#0F1629" Offset="1.0" />
+                </LinearGradientBrush>
+            </BoxView.Background>
+        </BoxView>
 
-                <StackLayout Padding="16" Spacing="8">
-                    <Label Text="Customer Information" 
-                           FontSize="18" 
-                           FontAttributes="Bold" />
-                    <Label Text="{Binding Customer.FullName}" 
-                           FontSize="16" />
-                    <Label Text="{Binding Customer.Email}" 
-                           FontSize="14" 
-                           TextColor="Gray" />
-                </StackLayout>
-            </Border>
+        <ScrollView>
+            <Grid Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <Label Text="Accounts" 
-                   FontSize="20" 
-                   FontAttributes="Bold" />
+                <!-- Welcome Card -->
+                <Grid Grid.Row="0" Margin="0,20,0,25">
+                    <Border StrokeThickness="0" 
+                            StrokeShape="RoundRectangle 25">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="DeepPink" Offset="0.0" />
+                                <GradientStop Color="HotPink" Offset="0.5" />
+                                <GradientStop Color="LightPink" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Shadow>
+                            <Shadow Brush="GreenYellow"
+                                    Offset="0,15"
+                                    Radius="30"
+                                    Opacity="0.3" />
+                        </Border.Shadow>
 
-            <CollectionView ItemsSource="{Binding Accounts}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="0,8">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectAccountCommand}"
-                                                      CommandParameter="{Binding}" />
-                            </Grid.GestureRecognizers>
+                        <Grid Padding="30">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                            <Border StrokeThickness="1" 
-                                    Stroke="Gray" 
-                                    BackgroundColor="White">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="8"/>
-                                </Border.StrokeShape>
+                            <!-- Welcome Text and Info -->
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                                <Grid Padding="16">
+                                <Label Grid.Row="0"
+                                       Text="Welcome Back!" 
+                                       FontSize="24" 
+                                       FontAttributes="Bold"
+                                       TextColor="White" />
+                                <Label Grid.Row="1"
+                                       Text="{Binding Customer.FullName}" 
+                                       FontSize="20" 
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       Margin="0,5,0,0" />
+                                <Grid Grid.Row="2" Margin="0,10,0,0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0"
+                                           Text="✉️" 
+                                           FontSize="14" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Customer.Email}" 
+                                           FontSize="14" 
+                                           TextColor="#D5F4E6"
+                                           Margin="8,0,0,0" />
+                                </Grid>
+                            </Grid>
 
-                                    <StackLayout Grid.Column="0" Spacing="4">
-                                        <Label Text="{Binding AccountNumber, StringFormat='Account: {0}'}" 
-                                               FontSize="16" 
-                                               FontAttributes="Bold" />
-                                        <Label Text="{Binding DateOpened, StringFormat='Opened: {0:MMM dd, yyyy}'}" 
-                                               FontSize="12" 
-                                               TextColor="Gray" />
-                                    </StackLayout>
-
-                                    <Label Grid.Column="1" 
-                                           Text="{Binding AccountBalance, StringFormat='{0:C}'}" 
-                                           FontSize="18" 
-                                           FontAttributes="Bold" 
-                                           TextColor="Green" />
+                            <!-- Profile Icon -->
+                            <Border Grid.Row="0" Grid.Column="1"
+                                    WidthRequest="70"
+                                    HeightRequest="70"
+                                    StrokeShape="RoundRectangle 35"
+                                    BackgroundColor="SkyBlue"
+                                    StrokeThickness="2"
+                                    Stroke="LightSkyBlue"
+                                    VerticalOptions="Center">
+                                <Grid>
+                                    <Label Text="👤" 
+                                           FontSize="32" 
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
                                 </Grid>
                             </Border>
                         </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                    </Border>
+                </Grid>
 
-            <ActivityIndicator IsVisible="{Binding IsLoading}" 
-                               IsRunning="{Binding IsLoading}"
-                               Color="Blue" />
-        </StackLayout>
-    </ScrollView>
+                <!-- Section Header -->
+                <Grid Grid.Row="1" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0"
+                               Text="Your Accounts" 
+                               FontSize="24" 
+                               FontAttributes="Bold" 
+                               TextColor="White" />
+                        <Label Grid.Row="1"
+                               Text="Manage your financial portfolio" 
+                               FontSize="13" 
+                               TextColor="WhiteSmoke" />
+                    </Grid>
+                </Grid>
+
+                <!-- Accounts Grid -->
+                <CollectionView Grid.Row="2" 
+                                ItemsSource="{Binding Accounts}"
+                                ItemsLayout="VerticalList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0,8">
+                                <Border StrokeThickness="1" 
+                                        Stroke="SkyBlue"
+                                        BackgroundColor="YellowGreen"
+                                        StrokeShape="RoundRectangle 20">
+                                    <Border.Shadow>
+                                        <Shadow Brush="Black"
+                                                Offset="0,5"
+                                                Radius="15"
+                                                Opacity="0.3" />
+                                    </Border.Shadow>
+
+                                    <Grid Padding="25">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Account Header -->
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border Grid.Column="0"
+                                                    WidthRequest="45"
+                                                    HeightRequest="45"
+                                                    StrokeShape="RoundRectangle 22.5"
+                                                    StrokeThickness="0"
+                                                    Margin="0,0,15,0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#6366F1" Offset="0.0" />
+                                                        <GradientStop Color="#8B5CF6" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Grid>
+                                                    <Label Text="💰" 
+                                                           FontSize="22"
+                                                           HorizontalTextAlignment="Center"
+                                                           VerticalTextAlignment="Center" />
+                                                </Grid>
+                                            </Border>
+
+                                            <Grid Grid.Column="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Label Grid.Row="0"
+                                                       Text="Savings Account" 
+                                                       FontSize="12" 
+                                                       TextColor="#94A3B8" />
+                                                <Label Grid.Row="1"
+                                                       Text="{Binding AccountNumber, StringFormat='Account {0}'}" 
+                                                       FontSize="16" 
+                                                       FontAttributes="Bold" 
+                                                       TextColor="White" />
+                                            </Grid>
+
+                                            <Border Grid.Column="2"
+                                                    BackgroundColor="#10B98120"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 12"
+                                                    Padding="10,5">
+                                                <Label Text="Active" 
+                                                       FontSize="11" 
+                                                       TextColor="#10B981"
+                                                       FontAttributes="Bold" />
+                                            </Border>
+                                        </Grid>
+
+                                        <!-- Balance -->
+                                        <Grid Grid.Row="1" Margin="0,20,0,15">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Row="0"
+                                                   Text="Available Balance" 
+                                                   FontSize="12" 
+                                                   TextColor="#64748B" />
+                                            <Label Grid.Row="1"
+                                                   Text="{Binding AccountBalance, StringFormat='{0:C}'}" 
+                                                   FontSize="32" 
+                                                   FontAttributes="Bold" 
+                                                   TextColor="#10B981"
+                                                   Margin="0,5,0,0" />
+                                        </Grid>
+
+                                        <!-- Date Info -->
+                                        <Grid Grid.Row="2" Margin="0,10,0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Column="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0"
+                                                       Text="📅" 
+                                                       FontSize="14" />
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding DateOpened, StringFormat='Opened: {0:MMM dd, yyyy}'}" 
+                                                       FontSize="13" 
+                                                       TextColor="#94A3B8"
+                                                       Margin="5,0,0,0" />
+                                            </Grid>
+                                        </Grid>
+
+                                        <!-- Action Button -->
+                                        <Button Grid.Row="3"
+                                                Text="View Transactions" 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelectAccountCommand}"
+                                                CommandParameter="{Binding}"
+                                                TextColor="White"
+                                                FontSize="15"
+                                                FontAttributes="Bold"
+                                                CornerRadius="15"
+                                                HeightRequest="50">
+                                            <Button.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Color="#6366F1" Offset="0.0" />
+                                                    <GradientStop Color="#8B5CF6" Offset="1.0" />
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Loading Indicator -->
+                <Grid Grid.Row="3" 
+                      IsVisible="{Binding IsLoading}"
+                      VerticalOptions="Center"
+                      HorizontalOptions="Center">
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       Color="#8B5CF6"
+                                       WidthRequest="50"
+                                       HeightRequest="50" />
+                </Grid>
+            </Grid>
+        </ScrollView>
+    </Grid>
 </ContentPage>

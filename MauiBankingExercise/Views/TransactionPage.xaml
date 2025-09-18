@@ -2,115 +2,380 @@
 <ContentPage x:Class="MauiBankingExercise.Views.TransactionPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Transactions">
+             Title="Account Transactions"
+             BackgroundColor="#0A0E27">
 
-    <ScrollView>
-        <StackLayout Padding="16" Spacing="16">
-            <Border StrokeThickness="1" 
-                    Stroke="DarkGreen" 
-                    BackgroundColor="LightGreen">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="8"/>
-                </Border.StrokeShape>
+    <Grid>
+        <!-- Background -->
+        <BoxView>
+            <BoxView.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#0A0E27" Offset="0.0" />
+                    <GradientStop Color="#1A1F3A" Offset="0.5" />
+                    <GradientStop Color="#0F1629" Offset="1.0" />
+                </LinearGradientBrush>
+            </BoxView.Background>
+        </BoxView>
 
-                <StackLayout Padding="16" Spacing="8">
-                    <Label Text="{Binding Account.AccountNumber, StringFormat='Account: {0}'}" 
-                           FontSize="18" 
-                           FontAttributes="Bold" />
-                    <Label Text="{Binding Account.AccountBalance, StringFormat='Balance: {0:C}'}" 
-                           FontSize="16" 
-                           TextColor="DarkGreen" />
-                </StackLayout>
-            </Border>
+        <ScrollView>
+            <Grid Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <Border StrokeThickness="1" 
-                    Stroke="Orange" 
-                    BackgroundColor="LightYellow">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="8"/>
-                </Border.StrokeShape>
+                <!-- Account Overview Card -->
+                <Grid Grid.Row="0" Margin="0,20,0,25">
+                    <Border StrokeThickness="0" 
+                            StrokeShape="RoundRectangle 25">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#3B82F6" Offset="0.0" />
+                                <GradientStop Color="#2563EB" Offset="0.5" />
+                                <GradientStop Color="#1D4ED8" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Shadow>
+                            <Shadow Brush="#3B82F6"
+                                    Offset="0,15"
+                                    Radius="30"
+                                    Opacity="0.3" />
+                        </Border.Shadow>
 
-                <StackLayout Padding="16" Spacing="12">
-                    <Label Text="New Transaction" 
-                           FontSize="18" 
-                           FontAttributes="Bold" />
+                        <Grid Padding="30">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                    <Label Text="Transaction Type:" />
-                    <Picker ItemsSource="{Binding TransactionTypes}" 
-                            SelectedItem="{Binding SelectedTransactionType}" />
+                            <!-- Header with Icon -->
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                    <Label Text="Amount:" />
-                    <Entry Text="{Binding TransactionAmount}" 
-                           Keyboard="Numeric" 
-                           Placeholder="Enter amount" />
+                                <Border Grid.Column="0"
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        StrokeShape="RoundRectangle 25"
+                                        BackgroundColor="#FFFFFF20"
+                                        StrokeThickness="0"
+                                        Margin="0,0,15,0">
+                                    <Grid>
+                                        <Label Text="💳" 
+                                               FontSize="26"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </Border>
 
-                    <Button Text="Submit Transaction" 
-                            Command="{Binding SubmitTransactionCommand}" 
-                            BackgroundColor="Blue" 
-                            TextColor="White" />
-                </StackLayout>
-            </Border>
-
-            <Label Text="Transaction History" 
-                   FontSize="20" 
-                   FontAttributes="Bold" />
-
-            <CollectionView ItemsSource="{Binding Transactions}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="0,4">
-                            <Border StrokeThickness="1" 
-                                    Stroke="LightGray" 
-                                    BackgroundColor="White">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="4"/>
-                                </Border.StrokeShape>
-
-                                <Grid Padding="12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackLayout Grid.Column="0" Spacing="2">
-                                        <Label Text="{Binding TransactionType.Name}" 
-                                               FontSize="14" 
-                                               FontAttributes="Bold" />
-                                        <Label Text="{Binding TransactionDate, StringFormat='{0:MMM dd, yyyy hh:mm tt}'}" 
-                                               FontSize="12" 
-                                               TextColor="Gray" />
-                                        <Label Text="{Binding Description}" 
-                                               FontSize="12" 
-                                               TextColor="Gray" />
-                                    </StackLayout>
-
-                                    <Label Grid.Column="1" 
-                                           Text="{Binding Amount, StringFormat='{0:C}'}" 
-                                           FontSize="16" 
-                                           FontAttributes="Bold">
-                                        <Label.Triggers>
-                                            <DataTrigger TargetType="Label" 
-                                                         Binding="{Binding TransactionType.Name}" 
-                                                         Value="Deposit">
-                                                <Setter Property="TextColor" Value="Green" />
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Label" 
-                                                         Binding="{Binding TransactionType.Name}" 
-                                                         Value="Withdrawal">
-                                                <Setter Property="TextColor" Value="Red" />
-                                            </DataTrigger>
-                                        </Label.Triggers>
-                                    </Label>
+                                <Grid Grid.Column="1" VerticalOptions="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0"
+                                           Text="Account Overview" 
+                                           FontSize="20" 
+                                           FontAttributes="Bold" 
+                                           TextColor="White" />
+                                    <Label Grid.Row="1"
+                                           Text="{Binding Account.AccountNumber, StringFormat='Account: {0}'}" 
+                                           FontSize="14" 
+                                           TextColor="#BDC3C7" />
                                 </Grid>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                            </Grid>
 
-            <ActivityIndicator IsVisible="{Binding IsLoading}" 
-                               IsRunning="{Binding IsLoading}"
-                               Color="Blue" />
-        </StackLayout>
-    </ScrollView>
+                            <BoxView Grid.Row="1" 
+                                     HeightRequest="1" 
+                                     BackgroundColor="#FFFFFF20" 
+                                     Margin="0,20,0,20" />
+
+                            <!-- Balance Display -->
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       Text="Available Balance" 
+                                       FontSize="14" 
+                                       TextColor="#FFFFFFAA" />
+                                <Label Grid.Row="1"
+                                       Text="{Binding Account.AccountBalance, StringFormat='{0:C}'}" 
+                                       FontSize="36" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#2ECC71"
+                                       Margin="0,5,0,0" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Transaction Form -->
+                <Grid Grid.Row="1" Margin="0,0,0,25">
+                    <Border StrokeThickness="1" 
+                            Stroke="#FFFFFF10"
+                            BackgroundColor="#1A1F3A"
+                            StrokeShape="RoundRectangle 20">
+                        <Border.Shadow>
+                            <Shadow Brush="Black"
+                                    Offset="0,5"
+                                    Radius="15"
+                                    Opacity="0.3" />
+                        </Border.Shadow>
+
+                        <Grid Padding="25">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Form Header -->
+                            <Grid Grid.Row="0" Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                       Text="New Transaction" 
+                                       FontSize="20" 
+                                       FontAttributes="Bold" 
+                                       TextColor="White" />
+                                <Label Grid.Column="1"
+                                       Text="⚡" 
+                                       FontSize="20" />
+                            </Grid>
+
+                            <!-- Transaction Type Selection -->
+                            <Grid Grid.Row="1" Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       Text="Transaction Type" 
+                                       FontSize="14" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#94A3B8"
+                                       Margin="0,0,0,8" />
+                                <Border Grid.Row="1"
+                                        StrokeThickness="1" 
+                                        Stroke="#FFFFFF10"
+                                        BackgroundColor="#0F1629"
+                                        StrokeShape="RoundRectangle 12">
+                                    <Picker ItemsSource="{Binding TransactionTypes}" 
+                                            SelectedItem="{Binding SelectedTransactionType}"
+                                            FontSize="15"
+                                            TextColor="White"
+                                            BackgroundColor="Transparent" />
+                                </Border>
+                            </Grid>
+
+                            <!-- Amount Input -->
+                            <Grid Grid.Row="2" Margin="0,0,0,20">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       Text="Amount" 
+                                       FontSize="14" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#94A3B8"
+                                       Margin="0,0,0,8" />
+                                <Border Grid.Row="1"
+                                        StrokeThickness="1" 
+                                        Stroke="#FFFFFF10"
+                                        BackgroundColor="#0F1629"
+                                        StrokeShape="RoundRectangle 12">
+                                    <Entry Text="{Binding TransactionAmount}" 
+                                           Keyboard="Numeric" 
+                                           Placeholder="Enter amount ($)"
+                                           FontSize="15"
+                                           TextColor="White"
+                                           PlaceholderColor="#64748B"
+                                           BackgroundColor="Transparent" />
+                                </Border>
+                            </Grid>
+
+                            <!-- Submit Button -->
+                            <Button Grid.Row="3"
+                                    Text="Process Transaction" 
+                                    Command="{Binding SubmitTransactionCommand}" 
+                                    TextColor="White"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    CornerRadius="15"
+                                    HeightRequest="52">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="#3498DB" Offset="0.0" />
+                                        <GradientStop Color="#2980B9" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Transaction History Header -->
+                <Grid Grid.Row="2" Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0"
+                               Text="Recent Transactions" 
+                               FontSize="22" 
+                               FontAttributes="Bold" 
+                               TextColor="White" />
+                        <Label Grid.Row="1"
+                               Text="Your recent activity" 
+                               FontSize="13" 
+                               TextColor="#94A3B8" />
+                    </Grid>
+                </Grid>
+
+                <!-- Transactions List -->
+                <CollectionView Grid.Row="3" 
+                                ItemsSource="{Binding Transactions}"
+                                ItemsLayout="VerticalList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0,6">
+                                <Border StrokeThickness="1" 
+                                        Stroke="#FFFFFF10"
+                                        BackgroundColor="#1A1F3A"
+                                        StrokeShape="RoundRectangle 16">
+                                    <Grid Padding="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="55" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Transaction Icon -->
+                                        <Border Grid.Column="0" 
+                                                WidthRequest="45" 
+                                                HeightRequest="45" 
+                                                StrokeShape="RoundRectangle 22.5"
+                                                StrokeThickness="0"
+                                                VerticalOptions="Center">
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" 
+                                                             Binding="{Binding TransactionType.Name}" 
+                                                             Value="Deposit">
+                                                    <Setter Property="BackgroundColor" Value="#2ECC7130" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" 
+                                                             Binding="{Binding TransactionType.Name}" 
+                                                             Value="Withdrawal">
+                                                    <Setter Property="BackgroundColor" Value="#E74C3C30" />
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                            <Grid>
+                                                <Label FontSize="20" 
+                                                       FontAttributes="Bold"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" 
+                                                                     Binding="{Binding TransactionType.Name}" 
+                                                                     Value="Deposit">
+                                                            <Setter Property="Text" Value="+" />
+                                                            <Setter Property="TextColor" Value="#2ECC71" />
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" 
+                                                                     Binding="{Binding TransactionType.Name}" 
+                                                                     Value="Withdrawal">
+                                                            <Setter Property="Text" Value="-" />
+                                                            <Setter Property="TextColor" Value="#E74C3C" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                            </Grid>
+                                        </Border>
+
+                                        <!-- Transaction Details -->
+                                        <Grid Grid.Column="1" 
+                                              Margin="15,0,0,0"
+                                              VerticalOptions="Center">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Label Grid.Row="0"
+                                                   Text="{Binding TransactionType.Name}" 
+                                                   FontSize="15" 
+                                                   FontAttributes="Bold" 
+                                                   TextColor="White" />
+                                            <Label Grid.Row="1"
+                                                   Text="{Binding TransactionDate, StringFormat='{0:MMM dd, yyyy hh:mm tt}'}" 
+                                                   FontSize="12" 
+                                                   TextColor="#94A3B8"
+                                                   Margin="0,2,0,0" />
+                                            <Label Grid.Row="2"
+                                                   Text="{Binding Description}" 
+                                                   FontSize="11" 
+                                                   TextColor="#64748B"
+                                                   Margin="0,2,0,0" />
+                                        </Grid>
+
+                                        <!-- Amount -->
+                                        <Grid Grid.Column="2" 
+                                              VerticalOptions="Center">
+                                            <Label Text="{Binding Amount, StringFormat='{0:C}'}" 
+                                                   FontSize="17" 
+                                                   FontAttributes="Bold"
+                                                   HorizontalTextAlignment="End">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" 
+                                                                 Binding="{Binding TransactionType.Name}" 
+                                                                 Value="Deposit">
+                                                        <Setter Property="TextColor" Value="#2ECC71" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" 
+                                                                 Binding="{Binding TransactionType.Name}" 
+                                                                 Value="Withdrawal">
+                                                        <Setter Property="TextColor" Value="#E74C3C" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Loading Indicator -->
+                <Grid Grid.Row="4" 
+                      IsVisible="{Binding IsLoading}"
+                      VerticalOptions="Center"
+                      HorizontalOptions="Center"
+                      Margin="0,30,0,0">
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       Color="#8B5CF6"
+                                       WidthRequest="50"
+                                       HeightRequest="50" />
+                </Grid>
+            </Grid>
+        </ScrollView>
+    </Grid>
 </ContentPage>

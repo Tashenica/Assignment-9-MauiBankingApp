@@ -9,12 +9,34 @@ namespace MauiBankingExercise.Services
     {
         private SQLiteAsyncConnection _database;
 
+        // INCREMENT THIS NUMBER WHENEVER YOU CHANGE THE SEED DATA
+        private const int DB_VERSION = 2; // Change to 3, 4, 5 etc. when you update seed data
+
         public async Task InitAsync()
         {
             if (_database is not null)
                 return;
 
             var databasePath = Path.Combine(FileSystem.AppDataDirectory, "Banking.db");
+
+#if DEBUG
+            // DEVELOPMENT ONLY: This will reset database when version changes
+            var versionFile = Path.Combine(FileSystem.AppDataDirectory, "db_version.txt");
+            var currentVersion = File.Exists(versionFile) ?
+                int.Parse(File.ReadAllText(versionFile)) : 0;
+
+            if (currentVersion < DB_VERSION)
+            {
+                // Delete old database if version changed
+                if (File.Exists(databasePath))
+                {
+                    File.Delete(databasePath);
+                }
+                // Save new version
+                File.WriteAllText(versionFile, DB_VERSION.ToString());
+            }
+#endif
+
             _database = new SQLiteAsyncConnection(databasePath);
 
             await _database.CreateTableAsync<Customer>();
@@ -28,6 +50,21 @@ namespace MauiBankingExercise.Services
             {
                 await SeedDataAsync();
             }
+        }
+
+        // ADD THIS METHOD: Manual reset for development
+        public async Task ResetDatabaseAsync()
+        {
+            await InitAsync();
+
+            // Delete all data in order (due to foreign keys)
+            await _database.DeleteAllAsync<Transaction>();
+            await _database.DeleteAllAsync<Account>();
+            await _database.DeleteAllAsync<Customer>();
+            await _database.DeleteAllAsync<TransactionType>();
+
+            // Re-seed with new data
+            await SeedDataAsync();
         }
 
         public async Task<List<Customer>> GetCustomersAsync()
@@ -130,22 +167,22 @@ namespace MauiBankingExercise.Services
             // Create customers
             var customer1 = new Customer
             {
-                FirstName = "John",
-                LastName = "Doe",
-                Email = "john.doe@bank.com",
-                PhoneNumber = "555-0101",
-                PhysicalAddress = "123 Main St",
-                IdentityNumber = "ID001",
-                Nationality = "US"
+                FirstName = "Tashenica",
+                LastName = "Tulley",
+                Email = "tashenicaklientjie@gmail.com",
+                PhoneNumber = "081 811 8484",
+                PhysicalAddress = "14 Gold Str",
+                IdentityNumber = "ID119",
+                Nationality = "RSA"
             };
 
             var customer2 = new Customer
             {
-                FirstName = "Jane",
-                LastName = "Smith",
-                Email = "jane.smith@bank.com",
-                PhoneNumber = "555-0102",
-                PhysicalAddress = "456 Oak Ave",
+                FirstName = "Emilio",
+                LastName = "Moses",
+                Email = "emiliomoses0@gmail.com",
+                PhoneNumber = "084 484 8375",
+                PhysicalAddress = "45 Oak Ave",
                 IdentityNumber = "ID002",
                 Nationality = "US"
             };
