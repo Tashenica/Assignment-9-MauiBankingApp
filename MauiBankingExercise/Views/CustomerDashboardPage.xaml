@@ -10,9 +10,9 @@
         <BoxView>
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#0A0E27" Offset="0.0" />
-                    <GradientStop Color="#1A1F3A" Offset="0.5" />
-                    <GradientStop Color="#0F1629" Offset="1.0" />
+                    <GradientStop Color="DeepPink" Offset="0.0" />
+                    <GradientStop Color="HotPink" Offset="0.5" />
+                    <GradientStop Color="DeepPink" Offset="1.0" />
                 </LinearGradientBrush>
             </BoxView.Background>
         </BoxView>
@@ -32,13 +32,13 @@
                             StrokeShape="RoundRectangle 25">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="DeepPink" Offset="0.0" />
+                                <GradientStop Color="Black" Offset="0.0" />
                                 <GradientStop Color="HotPink" Offset="0.5" />
-                                <GradientStop Color="LightPink" Offset="1.0" />
+                                <GradientStop Color="Black" Offset="1.0" />
                             </LinearGradientBrush>
                         </Border.Background>
                         <Border.Shadow>
-                            <Shadow Brush="GreenYellow"
+                            <Shadow Brush="Gold"
                                     Offset="0,15"
                                     Radius="30"
                                     Opacity="0.3" />
@@ -66,12 +66,12 @@
                                        Text="Welcome Back!" 
                                        FontSize="24" 
                                        FontAttributes="Bold"
-                                       TextColor="White" />
+                                       TextColor="WhiteSmoke" />
                                 <Label Grid.Row="1"
                                        Text="{Binding Customer.FullName}" 
                                        FontSize="20" 
                                        FontAttributes="Bold"
-                                       TextColor="White"
+                                       TextColor="WhiteSmoke"
                                        Margin="0,5,0,0" />
                                 <Grid Grid.Row="2" Margin="0,10,0,0">
                                     <Grid.ColumnDefinitions>
@@ -84,7 +84,7 @@
                                     <Label Grid.Column="1"
                                            Text="{Binding Customer.Email}" 
                                            FontSize="14" 
-                                           TextColor="#D5F4E6"
+                                           TextColor="GhostWhite"
                                            Margin="8,0,0,0" />
                                 </Grid>
                             </Grid>
@@ -94,9 +94,9 @@
                                     WidthRequest="70"
                                     HeightRequest="70"
                                     StrokeShape="RoundRectangle 35"
-                                    BackgroundColor="SkyBlue"
+                                    BackgroundColor="LightYellow"
                                     StrokeThickness="2"
-                                    Stroke="LightSkyBlue"
+                                    Stroke="Gold"
                                     VerticalOptions="Center">
                                 <Grid>
                                     <Label Text="👤" 
@@ -141,8 +141,8 @@
                         <DataTemplate>
                             <Grid Padding="0,8">
                                 <Border StrokeThickness="1" 
-                                        Stroke="SkyBlue"
-                                        BackgroundColor="YellowGreen"
+                                        Stroke="Gold"
+                                        BackgroundColor="LightPink"
                                         StrokeShape="RoundRectangle 20">
                                     <Border.Shadow>
                                         <Shadow Brush="Black"
@@ -175,8 +175,8 @@
                                                     Margin="0,0,15,0">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                        <GradientStop Color="#6366F1" Offset="0.0" />
-                                                        <GradientStop Color="#8B5CF6" Offset="1.0" />
+                                                        <GradientStop Color="Cyan" Offset="0.0" />
+                                                        <GradientStop Color="Yellow" Offset="1.0" />
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                                 <Grid>
@@ -195,7 +195,7 @@
                                                 <Label Grid.Row="0"
                                                        Text="Savings Account" 
                                                        FontSize="12" 
-                                                       TextColor="#94A3B8" />
+                                                       TextColor="WhiteSmoke" />
                                                 <Label Grid.Row="1"
                                                        Text="{Binding AccountNumber, StringFormat='Account {0}'}" 
                                                        FontSize="16" 
@@ -210,7 +210,7 @@
                                                     Padding="10,5">
                                                 <Label Text="Active" 
                                                        FontSize="11" 
-                                                       TextColor="#10B981"
+                                                       TextColor="Cyan"
                                                        FontAttributes="Bold" />
                                             </Border>
                                         </Grid>
@@ -224,12 +224,12 @@
                                             <Label Grid.Row="0"
                                                    Text="Available Balance" 
                                                    FontSize="12" 
-                                                   TextColor="#64748B" />
+                                                   TextColor="DarkCyan" />
                                             <Label Grid.Row="1"
                                                    Text="{Binding AccountBalance, StringFormat='{0:C}'}" 
                                                    FontSize="32" 
                                                    FontAttributes="Bold" 
-                                                   TextColor="#10B981"
+                                                   TextColor="LightCyan"
                                                    Margin="0,5,0,0" />
                                         </Grid>
 
@@ -250,7 +250,7 @@
                                                 <Label Grid.Column="1"
                                                        Text="{Binding DateOpened, StringFormat='Opened: {0:MMM dd, yyyy}'}" 
                                                        FontSize="13" 
-                                                       TextColor="#94A3B8"
+                                                       TextColor="Cyan"
                                                        Margin="5,0,0,0" />
                                             </Grid>
                                         </Grid>
@@ -267,8 +267,8 @@
                                                 HeightRequest="50">
                                             <Button.Background>
                                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                    <GradientStop Color="#6366F1" Offset="0.0" />
-                                                    <GradientStop Color="#8B5CF6" Offset="1.0" />
+                                                    <GradientStop Color="Cyan" Offset="0.0" />
+                                                    <GradientStop Color="Yellow" Offset="1.0" />
                                                 </LinearGradientBrush>
                                             </Button.Background>
                                         </Button>
@@ -285,7 +285,7 @@
                       VerticalOptions="Center"
                       HorizontalOptions="Center">
                     <ActivityIndicator IsRunning="{Binding IsLoading}"
-                                       Color="#8B5CF6"
+                                       Color="Plum"
                                        WidthRequest="50"
                                        HeightRequest="50" />
                 </Grid>

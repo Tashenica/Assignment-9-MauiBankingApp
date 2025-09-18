@@ -10,9 +10,9 @@
         <BoxView>
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#0A0E27" Offset="0.0" />
-                    <GradientStop Color="#1A1F3A" Offset="0.5" />
-                    <GradientStop Color="#0F1629" Offset="1.0" />
+                    <GradientStop Color="DeepPink" Offset="0.0" />
+                    <GradientStop Color="HotPink" Offset="0.5" />
+                    <GradientStop Color="DeepPink" Offset="1.0" />
                 </LinearGradientBrush>
             </BoxView.Background>
         </BoxView>
@@ -33,13 +33,13 @@
                             StrokeShape="RoundRectangle 25">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#3B82F6" Offset="0.0" />
-                                <GradientStop Color="#2563EB" Offset="0.5" />
-                                <GradientStop Color="#1D4ED8" Offset="1.0" />
+                                <GradientStop Color="Black" Offset="0.0" />
+                                <GradientStop Color="HotPink" Offset="0.5" />
+                                <GradientStop Color="Black" Offset="1.0" />
                             </LinearGradientBrush>
                         </Border.Background>
                         <Border.Shadow>
-                            <Shadow Brush="#3B82F6"
+                            <Shadow Brush="Gold"
                                     Offset="0,15"
                                     Radius="30"
                                     Opacity="0.3" />
@@ -63,7 +63,7 @@
                                         WidthRequest="50"
                                         HeightRequest="50"
                                         StrokeShape="RoundRectangle 25"
-                                        BackgroundColor="#FFFFFF20"
+                                        BackgroundColor="Gold"
                                         StrokeThickness="0"
                                         Margin="0,0,15,0">
                                     <Grid>
@@ -87,13 +87,13 @@
                                     <Label Grid.Row="1"
                                            Text="{Binding Account.AccountNumber, StringFormat='Account: {0}'}" 
                                            FontSize="14" 
-                                           TextColor="#BDC3C7" />
+                                           TextColor="NavajoWhite" />
                                 </Grid>
                             </Grid>
 
                             <BoxView Grid.Row="1" 
                                      HeightRequest="1" 
-                                     BackgroundColor="#FFFFFF20" 
+                                     BackgroundColor="Gold" 
                                      Margin="0,20,0,20" />
 
                             <!-- Balance Display -->
@@ -105,12 +105,12 @@
                                 <Label Grid.Row="0"
                                        Text="Available Balance" 
                                        FontSize="14" 
-                                       TextColor="#FFFFFFAA" />
+                                       TextColor="NavajoWhite" />
                                 <Label Grid.Row="1"
                                        Text="{Binding Account.AccountBalance, StringFormat='{0:C}'}" 
                                        FontSize="36" 
                                        FontAttributes="Bold" 
-                                       TextColor="#2ECC71"
+                                       TextColor="Cyan"
                                        Margin="0,5,0,0" />
                             </Grid>
                         </Grid>
@@ -120,8 +120,8 @@
                 <!-- Transaction Form -->
                 <Grid Grid.Row="1" Margin="0,0,0,25">
                     <Border StrokeThickness="1" 
-                            Stroke="#FFFFFF10"
-                            BackgroundColor="#1A1F3A"
+                            Stroke="Gold"
+                            BackgroundColor="LightPink"
                             StrokeShape="RoundRectangle 20">
                         <Border.Shadow>
                             <Shadow Brush="Black"
@@ -164,12 +164,12 @@
                                        Text="Transaction Type" 
                                        FontSize="14" 
                                        FontAttributes="Bold" 
-                                       TextColor="#94A3B8"
+                                       TextColor="DarkCyan"
                                        Margin="0,0,0,8" />
                                 <Border Grid.Row="1"
                                         StrokeThickness="1" 
-                                        Stroke="#FFFFFF10"
-                                        BackgroundColor="#0F1629"
+                                        Stroke="Gold"
+                                        BackgroundColor="HotPink"
                                         StrokeShape="RoundRectangle 12">
                                     <Picker ItemsSource="{Binding TransactionTypes}" 
                                             SelectedItem="{Binding SelectedTransactionType}"
@@ -189,19 +189,19 @@
                                        Text="Amount" 
                                        FontSize="14" 
                                        FontAttributes="Bold" 
-                                       TextColor="#94A3B8"
+                                       TextColor="DarkCyan"
                                        Margin="0,0,0,8" />
                                 <Border Grid.Row="1"
                                         StrokeThickness="1" 
-                                        Stroke="#FFFFFF10"
-                                        BackgroundColor="#0F1629"
+                                        Stroke="Gold"
+                                        BackgroundColor="HotPink"
                                         StrokeShape="RoundRectangle 12">
                                     <Entry Text="{Binding TransactionAmount}" 
                                            Keyboard="Numeric" 
                                            Placeholder="Enter amount ($)"
                                            FontSize="15"
                                            TextColor="White"
-                                           PlaceholderColor="#64748B"
+                                           PlaceholderColor="Cyan"
                                            BackgroundColor="Transparent" />
                                 </Border>
                             </Grid>
@@ -210,15 +210,15 @@
                             <Button Grid.Row="3"
                                     Text="Process Transaction" 
                                     Command="{Binding SubmitTransactionCommand}" 
-                                    TextColor="White"
+                                    TextColor="DarkCyan"
                                     FontSize="16"
                                     FontAttributes="Bold"
                                     CornerRadius="15"
                                     HeightRequest="52">
                                 <Button.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                        <GradientStop Color="#3498DB" Offset="0.0" />
-                                        <GradientStop Color="#2980B9" Offset="1.0" />
+                                        <GradientStop Color="Cyan" Offset="0.0" />
+                                        <GradientStop Color="Yellow" Offset="1.0" />
                                     </LinearGradientBrush>
                                 </Button.Background>
                             </Button>
@@ -244,8 +244,8 @@
                                TextColor="White" />
                         <Label Grid.Row="1"
                                Text="Your recent activity" 
-                               FontSize="13" 
-                               TextColor="#94A3B8" />
+                               FontSize="13"
+                               TextColor="DarkSlateGray" />
                     </Grid>
                 </Grid>
 
@@ -257,8 +257,8 @@
                         <DataTemplate>
                             <Grid Padding="0,6">
                                 <Border StrokeThickness="1" 
-                                        Stroke="#FFFFFF10"
-                                        BackgroundColor="#1A1F3A"
+                                        Stroke="Gold"
+                                        BackgroundColor="LightPink"
                                         StrokeShape="RoundRectangle 16">
                                     <Grid Padding="20">
                                         <Grid.ColumnDefinitions>
@@ -278,12 +278,12 @@
                                                 <DataTrigger TargetType="Border" 
                                                              Binding="{Binding TransactionType.Name}" 
                                                              Value="Deposit">
-                                                    <Setter Property="BackgroundColor" Value="#2ECC7130" />
+                                                    <Setter Property="BackgroundColor" Value="LightCyan" />
                                                 </DataTrigger>
                                                 <DataTrigger TargetType="Border" 
                                                              Binding="{Binding TransactionType.Name}" 
                                                              Value="Withdrawal">
-                                                    <Setter Property="BackgroundColor" Value="#E74C3C30" />
+                                                    <Setter Property="BackgroundColor" Value="DarkCyan" />
                                                 </DataTrigger>
                                             </Border.Triggers>
                                             <Grid>
@@ -296,13 +296,13 @@
                                                                      Binding="{Binding TransactionType.Name}" 
                                                                      Value="Deposit">
                                                             <Setter Property="Text" Value="+" />
-                                                            <Setter Property="TextColor" Value="#2ECC71" />
+                                                            <Setter Property="TextColor" Value="GreenYellow" />
                                                         </DataTrigger>
                                                         <DataTrigger TargetType="Label" 
                                                                      Binding="{Binding TransactionType.Name}" 
                                                                      Value="Withdrawal">
                                                             <Setter Property="Text" Value="-" />
-                                                            <Setter Property="TextColor" Value="#E74C3C" />
+                                                            <Setter Property="TextColor" Value="MediumVioletRed" />
                                                         </DataTrigger>
                                                     </Label.Triggers>
                                                 </Label>
@@ -327,12 +327,12 @@
                                             <Label Grid.Row="1"
                                                    Text="{Binding TransactionDate, StringFormat='{0:MMM dd, yyyy hh:mm tt}'}" 
                                                    FontSize="12" 
-                                                   TextColor="#94A3B8"
+                                                   TextColor="DarkSlateGray"
                                                    Margin="0,2,0,0" />
                                             <Label Grid.Row="2"
                                                    Text="{Binding Description}" 
                                                    FontSize="11" 
-                                                   TextColor="#64748B"
+                                                   TextColor="DarkCyan"
                                                    Margin="0,2,0,0" />
                                         </Grid>
 
@@ -347,12 +347,12 @@
                                                     <DataTrigger TargetType="Label" 
                                                                  Binding="{Binding TransactionType.Name}" 
                                                                  Value="Deposit">
-                                                        <Setter Property="TextColor" Value="#2ECC71" />
+                                                        <Setter Property="TextColor" Value="GreenYellow" />
                                                     </DataTrigger>
                                                     <DataTrigger TargetType="Label" 
                                                                  Binding="{Binding TransactionType.Name}" 
                                                                  Value="Withdrawal">
-                                                        <Setter Property="TextColor" Value="#E74C3C" />
+                                                        <Setter Property="TextColor" Value="MediumVioletRed" />
                                                     </DataTrigger>
                                                 </Label.Triggers>
                                             </Label>
@@ -371,7 +371,7 @@
                       HorizontalOptions="Center"
                       Margin="0,30,0,0">
                     <ActivityIndicator IsRunning="{Binding IsLoading}"
-                                       Color="#8B5CF6"
+                                       Color="Plum"
                                        WidthRequest="50"
                                        HeightRequest="50" />
                 </Grid>

@@ -10,9 +10,9 @@
         <BoxView>
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#0A0E27" Offset="0.0" />
-                    <GradientStop Color="#1A1F3A" Offset="0.5" />
-                    <GradientStop Color="#0F1629" Offset="1.0" />
+                    <GradientStop Color="DeepPink" Offset="0.0" />
+                    <GradientStop Color="HotPink" Offset="0.5" />
+                    <GradientStop Color="DeepPink" Offset="1.0" />
                 </LinearGradientBrush>
             </BoxView.Background>
         </BoxView>
@@ -30,9 +30,9 @@
                         StrokeShape="RoundRectangle 25">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#6366F1" Offset="0.0" />
-                            <GradientStop Color="#8B5CF6" Offset="0.5" />
-                            <GradientStop Color="#EC4899" Offset="1.0" />
+                            <GradientStop Color="Black" Offset="0.0" />
+                            <GradientStop Color="HotPink" Offset="0.5" />
+                            <GradientStop Color="Black" Offset="1.0" />
                         </LinearGradientBrush>
                     </Border.Background>
                     <Border.Shadow>
@@ -60,7 +60,7 @@
                                     WidthRequest="50"
                                     HeightRequest="50"
                                     StrokeShape="RoundRectangle 15"
-                                    BackgroundColor="#FFFFFF25"
+                                    BackgroundColor="Gold"
                                     StrokeThickness="0">
                                 <Grid>
                                     <Label Text="💳" 
@@ -76,20 +76,20 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Label Grid.Row="0"
-                                       Text="SecureBank" 
+                                       Text="CashBank" 
                                        FontSize="28" 
                                        FontAttributes="Bold" 
-                                       TextColor="White" />
+                                       TextColor="GhostWhite" />
                                 <Label Grid.Row="1"
                                        Text="Premium Digital Banking" 
                                        FontSize="13" 
-                                       TextColor="#FFFFFFAA" />
+                                       TextColor="LightGoldenrodYellow" />
                             </Grid>
                         </Grid>
 
                         <BoxView Grid.Row="1" 
                                  HeightRequest="1" 
-                                 BackgroundColor="#FFFFFF20" 
+                                 BackgroundColor="Gold" 
                                  Margin="0,15,0,15" />
 
                         <Label Grid.Row="2"
@@ -111,8 +111,8 @@
                             <DataTemplate>
                                 <Grid Padding="0,8">
                                     <Border StrokeThickness="1" 
-                                            Stroke="#FFFFFF10"
-                                            BackgroundColor="#1A1F3A"
+                                            Stroke="Gold"
+                                            BackgroundColor="LightPink"
                                             StrokeShape="RoundRectangle 20">
                                         <Border.Shadow>
                                             <Shadow Brush="Black"
@@ -138,19 +138,19 @@
                                                     HeightRequest="55" 
                                                     StrokeShape="RoundRectangle 27.5"
                                                     StrokeThickness="2"
-                                                    Stroke="#6366F1"
+                                                    Stroke="HotPink"
                                                     VerticalOptions="Center">
                                                 <Border.Background>
                                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                        <GradientStop Color="#6366F1" Offset="0.0" />
-                                                        <GradientStop Color="#8B5CF6" Offset="1.0" />
+                                                        <GradientStop Color="DeepPink" Offset="0.0" />
+                                                        <GradientStop Color="Pink" Offset="1.0" />
                                                     </LinearGradientBrush>
                                                 </Border.Background>
                                                 <Grid>
                                                     <Label Text="U" 
                                                            FontSize="22" 
                                                            FontAttributes="Bold" 
-                                                           TextColor="White"
+                                                           TextColor="BlanchedAlmond"
                                                            HorizontalTextAlignment="Center"
                                                            VerticalTextAlignment="Center" />
                                                 </Grid>
@@ -170,11 +170,11 @@
                                                        Text="{Binding FullName}" 
                                                        FontSize="17" 
                                                        FontAttributes="Bold" 
-                                                       TextColor="White" />
+                                                       TextColor="BlanchedAlmond" />
                                                 <Label Grid.Row="1"
                                                        Text="{Binding Email}" 
                                                        FontSize="13" 
-                                                       TextColor="#94A3B8"
+                                                       TextColor="DarkSlateGray"
                                                        Margin="0,2,0,0" />
                                                 <Grid Grid.Row="2" Margin="0,4,0,0">
                                                     <Grid.ColumnDefinitions>
@@ -187,7 +187,7 @@
                                                     <Label Grid.Column="1"
                                                            Text="{Binding PhoneNumber}" 
                                                            FontSize="13" 
-                                                           TextColor="#64748B"
+                                                           TextColor="DimGray"
                                                            Margin="5,0,0,0" />
                                                 </Grid>
                                             </Grid>
@@ -197,12 +197,12 @@
                                                 <Border WidthRequest="35" 
                                                         HeightRequest="35" 
                                                         StrokeShape="RoundRectangle 17.5"
-                                                        BackgroundColor="#6366F120"
+                                                        BackgroundColor="DeepPink"
                                                         StrokeThickness="0">
                                                     <Grid>
                                                         <Label Text="→" 
                                                                FontSize="20" 
-                                                               TextColor="#8B5CF6"
+                                                               TextColor="WhiteSmoke"
                                                                HorizontalTextAlignment="Center"
                                                                VerticalTextAlignment="Center" />
                                                     </Grid>
@@ -221,7 +221,7 @@
                                  HorizontalOptions="Center"
                                  Margin="0,50,0,0">
                         <Border StrokeThickness="2" 
-                                Stroke="#FFFFFF10"
+                                Stroke="Gold"
                                 BackgroundColor="#1A1F3A90"
                                 StrokeShape="RoundRectangle 20">
                             <Grid Padding="40">
@@ -266,8 +266,8 @@
                     HorizontalOptions="Center">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#ffff00" Offset="0.0" />
-                        <GradientStop Color="#00ff80" Offset="1.0" />
+                        <GradientStop Color="HotPink" Offset="0.0" />
+                        <GradientStop Color="LightPink" Offset="1.0" />
                     </LinearGradientBrush>
                 </Border.Background>
                 <Grid>
@@ -277,7 +277,7 @@
                     </Grid.RowDefinitions>
                     <ActivityIndicator Grid.Row="0"
                                        IsRunning="{Binding IsLoading}"
-                                       Color="#8B5CF6"
+                                       Color="Plum"
                                        WidthRequest="50"
                                        HeightRequest="50"
                                        VerticalOptions="Center" />
